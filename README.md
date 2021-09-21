@@ -1,2 +1,3 @@
 # pyvrs
-VRS reference code in Python3
+
+Proof of concept VRS resolver code in Python3.
