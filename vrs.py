@@ -29,7 +29,7 @@ def decode(rdata):
     elif is_base64(txt):
         return base64.b64decode(txt)
     elif is_json(txt):
-        return json.loads(txt) 
+        return json.loads(txt)
     else:
         return rdata.strings
 
