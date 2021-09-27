@@ -4,18 +4,21 @@ import base64
 import click
 import dns.resolver
 import json
+from pprint import pprint
 import shlex
 
 
 @click.command()
 @click.option('-r', '--resolver', default='ovon.directory')
+@click.option('--verbose', is_flag=True)
 @click.argument('name')
-def resolve(resolver, name):
+def resolve(resolver, verbose, name):
     """Resolve <name>"""
-    answers = dns.resolver.resolve('target.ovon.directory', 'TXT')
-    #print(answers.qname)
+    answers = dns.resolver.resolve(f'{name}.ovon.directory', 'TXT')
+    if (verbose):
+        print(f'querying: {answers.qname}')
     for rdata in answers:
-        print(decode(rdata))
+        pprint(decode(rdata))
 
 
 def decode(rdata):
