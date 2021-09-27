@@ -1,3 +1,3 @@
 # pyvrs
 
-Proof of concept VRS resolver code in Python3.
+Proof of concept VRS resolver library implemented in Python3.
