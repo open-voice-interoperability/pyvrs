@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import base64
 import click
 import dns.resolver
@@ -62,7 +60,3 @@ def is_json(s):
     except ValueError:
         return False
     return True
-
-
-if __name__ == '__main__':
-    resolve()
