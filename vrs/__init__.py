@@ -16,19 +16,15 @@ def resolve(resolver, verbose, name):
     if (verbose):
         print(f'querying: {answers.qname}')
     for rdata in answers:
-        pprint(decode(rdata))
+        print(decode(rdata))
 
 
 def decode(rdata):
-    # TODO: decode base64-encoded data
-    #import pdb; pdb.set_trace()
-    #print(dir(rdata))
-    #print(rdata.to_text())
     txt = rdata.to_text()
     if is_simple(txt):
-        return dict(item.split("=") for item in shlex.split(shlex.split(txt)[0]))
+        return dict(i.split("=") for i in shlex.split(shlex.split(txt)[0]))
     elif is_base64(txt):
-        return base64.b64decode(txt)
+        return str(base64.b64decode(txt), 'utf8').strip()
     elif is_json(txt):
         return json.loads(txt)
     else:
@@ -40,13 +36,14 @@ def is_simple(s):
     return all([r in s for r in required])
 
 
-def is_base64(sb):
+def is_base64(s):
     """Return True if input string is base64, false otherwise."""
+    s = s.strip("'\"")
     try:
-        if isinstance(sb, str):
-            sb_bytes = bytes(sb, 'ascii')
-        elif isinstance(sb, bytes):
-            sb_bytes = sb
+        if isinstance(s, str):
+            sb_bytes = bytes(s, 'ascii')
+        elif isinstance(s, bytes):
+            sb_bytes = s
         else:
             raise ValueError("Argument must be string or bytes")
         return base64.b64encode(base64.b64decode(sb_bytes)) == sb_bytes
