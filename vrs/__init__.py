@@ -1,22 +1,18 @@
 import base64
-import click
 import dns.resolver
 import json
-from pprint import pprint
+import logging
 import shlex
 
 
-@click.command()
-@click.option('-r', '--resolver', default='ovon.directory')
-@click.option('--verbose', is_flag=True)
-@click.argument('name')
-def resolve(resolver, verbose, name):
+logger = logging.getLogger('pyvrs')
+
+
+def resolve(name, resolver='ovon.directory'):
     """Resolve <name>"""
     answers = dns.resolver.resolve(f'{name}.ovon.directory', 'TXT')
-    if (verbose):
-        print(f'querying: {answers.qname}')
-    for rdata in answers:
-        print(decode(rdata))
+    logger.info(f'querying: {answers.qname}')
+    return [decode(a) for a in answers]
 
 
 def decode(rdata):
