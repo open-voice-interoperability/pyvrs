@@ -18,6 +18,6 @@ click_log.basic_config(logger)
 @click.argument('name')
 def vresolve(resolver, name):
     """Resolve <name>"""
-    logger.info(f"resolver='{resolver}' name='{name}'")
+    logger.debug(f"resolver='{resolver}' name='{name}'")
     for record in vrs.resolve(name, resolver):
         pprint(record)
