@@ -2,6 +2,7 @@ import click
 import click_config_file
 import click_log
 import logging
+import os
 from pprint import pprint
 from vrs.resolver import resolve
 
@@ -14,22 +15,13 @@ logger = logging.getLogger('pyvrs')
 click_log.basic_config(logger)
 
 
+# see https://jwodder.github.io/kbits/posts/click-config/
 @click.command()
 @click_log.simple_verbosity_option(logger)
-@click.option('-H', '--hostname', default=['ovon.directory'], multiple=True)
-@click.option('-r', '--restapi', multiple=True)
+@click.option('-c', '--config', type=click.Path(dir_okay=False),
+              default=f"{os.environ['HOME']}/pyvrs/pyvrs.conf")
 @click.argument('name')
-@click_config_file.configuration_option()
-def vresolve(name, hostname, restapi):
+def vresolve(name, config):
     """Resolve <name>"""
-    logger.debug(f"{hostname} / {restapi} / {name}")
-
-    # coax the config parameters into arrays
-    # TODO: turn this into a full-fledged config object
-    if isinstance(hostname, str):
-        hostname = [hostname]
-    if isinstance(restapi, str):
-        restapi = [restapi]
-
-    for record in resolve(name, dict(hostname=hostname, restapi=restapi)):
+    for record in resolve(name, config):
         pprint(record)
