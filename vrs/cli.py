@@ -1,5 +1,4 @@
 import click
-import click_config_file
 import click_log
 import logging
 import os
@@ -19,7 +18,7 @@ click_log.basic_config(logger)
 @click.command()
 @click_log.simple_verbosity_option(logger)
 @click.option('-c', '--config', type=click.Path(dir_okay=False),
-              default=f"{os.environ['HOME']}/pyvrs/pyvrs.conf")
+              default=f"{os.environ['HOME']}/.config/pyvrs/pyvrs.conf")
 @click.argument('name')
 def vresolve(name, config):
     """Resolve <name>"""
