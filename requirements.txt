@@ -1,5 +1,6 @@
 astroid==2.8.0
 click==8.0.1
+click-config-file==0.6.0
 flake8==3.9.2
 isort==5.9.3
 lazy-object-proxy==1.6.0
@@ -8,6 +9,7 @@ platformdirs==2.3.0
 pycodestyle==2.7.0
 pyflakes==2.3.1
 pylint==2.11.1
+requests==2.27.1
 toml==0.10.2
 typing-extensions==3.10.0.2
 wrapt==1.12.1

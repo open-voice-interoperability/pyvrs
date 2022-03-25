@@ -1,8 +1,10 @@
 import click
 import click_log
 import logging
+import os
 from pprint import pprint
-import vrs
+from vrs.resolver import resolve
+
 
 """
 Command-line entry points for the PyVRS package.
@@ -12,12 +14,13 @@ logger = logging.getLogger('pyvrs')
 click_log.basic_config(logger)
 
 
+# see https://jwodder.github.io/kbits/posts/click-config/
 @click.command()
 @click_log.simple_verbosity_option(logger)
-@click.option('-r', '--resolver', default='ovon.directory')
+@click.option('-c', '--config', type=click.Path(dir_okay=False),
+              default=f"{os.environ['HOME']}/.config/pyvrs/pyvrs.conf")
 @click.argument('name')
-def vresolve(resolver, name):
+def vresolve(name, config):
     """Resolve <name>"""
-    logger.debug(f"resolver='{resolver}' name='{name}'")
-    for record in vrs.resolve(name, resolver):
+    for record in resolve(name, config):
         pprint(record)
